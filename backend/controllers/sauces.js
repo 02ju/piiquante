@@ -21,7 +21,7 @@ exports.createSauce = (req, res, next) => {
     imageUrl: req.body.imageUrl,
     price: req.body.price,
     userId: req.body.userId
-  });
+  }); */
   sauce.save().then(
     () => {
       res.status(201).json({
@@ -32,10 +32,10 @@ exports.createSauce = (req, res, next) => {
     (error) => {
       res.status(400).json({
         error: error
-      });
+      })
     }
   );
-}; */
+
 
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
