@@ -20,6 +20,7 @@ mongoose.connect('mongodb+srv://Emine33:neler33@cluster0.kkieqv3.mongodb.net/?re
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use(express.json());
+//app.use('/api/sauces', saucesRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images'))); 
 
 
@@ -30,7 +31,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//app.use('/api/sauces', saucesRoutes);
+
 app.use('/api/auth', userRoutes);
 
 

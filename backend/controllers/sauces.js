@@ -22,7 +22,7 @@ exports.createSauces = (req, res, next) => {
     price: req.body.price,
     userId: req.body.userId
   }); */
-  sauces.save().then(
+  Sauces.save().then(
     () => {
       res.status(201).json({
         message: 'Post saved successfully!'
@@ -41,7 +41,7 @@ exports.getOneSauces = (req, res, next) => {
   Sauces.findOne({
     _id: req.params.id
   }).then(
-    (sauces) => {
+    (Sauces) => {
       res.status(200).json(Sauces);
     }
   ).catch(
@@ -61,8 +61,8 @@ exports.modifySauces = (req, res, next) => {
 
   delete saucesObject._userId;
   Sauces.findOne({_id: req.params.id})
-      .then((sauces) => {
-          if (sauces.userId != req.auth.userId) {
+      .then((Sauces) => {
+          if (Sauces.userId != req.auth.userId) {
               res.status(401).json({ message : 'Not authorized'});
           } else {
               Sauces.updateOne({ _id: req.params.id}, { ...saucesObject, _id: req.params.id})
@@ -118,11 +118,11 @@ exports.deleteSauce = (req, res, next) => {
 
 exports.deleteSauces = (req, res, next) => {
   Sauces.findOne({ _id: req.params.id})
-      .then(sauces => {
-          if (sauces.userId != req.auth.userId) {
+      .then(Sauces => {
+          if (Sauces.userId != req.auth.userId) {
               res.status(401).json({message: 'Not authorized'});
           } else {
-              const filename = sauces.imageUrl.split('/images/')[1];
+              const filename = Sauces.imageUrl.split('/images/')[1];
               fs.unlink(`images/${filename}`, () => {
                   Sauces.deleteOne({_id: req.params.id})
                       .then(() => { res.status(200).json({message: 'Objet supprimé !'})})
@@ -137,8 +137,8 @@ exports.deleteSauces = (req, res, next) => {
 
 exports.getAllSauces = (req, res, next) => {
   Sauces.find().then(
-    (sauces) => {
-      res.status(200).json(sauces);
+    (Sauces) => {
+      res.status(200).json(Sauces);
     }
   ).catch(
     (error) => {
