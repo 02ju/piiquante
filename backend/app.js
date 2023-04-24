@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 
 const userRoutes = require('./routes/user.js');
-//const saucesRoutes = require('./routes/sauces'); 
+//const saucesRoutes = require('./routes/sauces.js'); 
 
 const app = express();
 
