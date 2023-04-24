@@ -1,12 +1,15 @@
 const express = require('express');
+const cors = require('cors');
+const bodyParser = require("body-parser")
 const mongoose = require('mongoose');
 const path = require('path');
-const cors = require('cors');
 
 const userRoutes = require('./routes/user.js');
 //const saucesRoutes = require('./routes/sauces.js'); 
 
-const app = express();
+const app = express()
+app.use(cors());
+app.use(bodyParser.json())
 
 mongoose.connect('mongodb+srv://Emine33:neler33@cluster0.kkieqv3.mongodb.net/?retryWrites=true&w=majority', {
     useNewUrlParser: true,
