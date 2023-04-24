@@ -4,10 +4,11 @@ const bodyParser = require("body-parser")
 const mongoose = require('mongoose');
 const path = require('path');
 
+const app = express()
+
 const userRoutes = require('./routes/user.js');
 //const saucesRoutes = require('./routes/sauces.js'); 
 
-const app = express()
 app.use(cors());
 app.use(bodyParser.json())
 
@@ -18,7 +19,9 @@ mongoose.connect('mongodb+srv://Emine33:neler33@cluster0.kkieqv3.mongodb.net/?re
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-app.use(express.json()) 
+app.use(express.json());
+app.use('/images', express.static(path.join(__dirname, 'images'))); 
+
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -27,10 +30,9 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
-app.use('/api/auth', userRoutes);
 //app.use('/api/sauces', saucesRoutes);
-//app.use('/images', express.static(path.join(__dirname, 'images'))); 
+app.use('/api/auth', userRoutes);
+
+
 
 module.exports = app;
