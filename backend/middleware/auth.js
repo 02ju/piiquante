@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-// require('dotenv').config();
- 
+const jwt = require('jsonwebtoken');// Crée et check un token d'identification sécurisé
+require('dotenv').config();
+
 module.exports = (req, res, next) => {
    try {
        const token = req.headers.authorization.split(' ')[1];
@@ -9,8 +9,10 @@ module.exports = (req, res, next) => {
        req.auth = {
            userId: userId
        };
-	next();
+    next();
    } catch(error) {
        res.status(401).json({ error });
    }
 };
+
+// process.env.secret_token

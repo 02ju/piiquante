@@ -1,29 +1,31 @@
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require("body-parser")
+const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
+// IMPORTATION ROUTES
+const userRoutes = require('./routes/user');
+const sauceRoutes = require('./routes/sauce');
+// FIN IMPORTATIONS
 const path = require('path');
-
-const app = express()
-
-const userRoutes = require('./routes/user.js');
-//const saucesRoutes = require('./routes/sauces.js'); 
+const helmet = require("helmet");
+require('dotenv').config();
 
 app.use(cors());
-app.use(bodyParser.json())
 
-mongoose.connect('mongodb+srv://Emine33:neler33@cluster0.kkieqv3.mongodb.net/?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
+ // HELMET Protège l'app en paramétrant des Headers (notamment contre les failles XSS)
+ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
-app.use(express.json());
-//app.use('/api/sauces', saucesRoutes);
-app.use('/images', express.static(path.join(__dirname, 'images'))); 
+//Connection mongoDb avec mongoose 
+mongoose.connect(`mongodb+srv://Emine33:neler33@cluster0.kkieqv3.mongodb.net/?retryWrites=true&w=majority`,
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
+ 
+
+//Erreur cors
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -31,9 +33,14 @@ app.use((req, res, next) => {
     next();
 });
 
+// BODYPARSER
+app.use(express.json());
 
+// ROUTES
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
-
-
 module.exports = app;
+
+
