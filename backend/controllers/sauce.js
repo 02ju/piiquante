@@ -1,5 +1,3 @@
-
-
 const Sauce = require('../models/Sauce');
 
 const fs = require('fs');// Permet de gérer les fichiers stockés
